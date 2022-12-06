@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from account.views import RegisterUserView, DeleteUserView
-
-
+from account.views import RegisterUserView, DeleteUserView, check_auth
+from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
 """=============Swagger docs============="""
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -38,6 +37,10 @@ urlpatterns = [
     path('docs/', swagger_view.with_ui('swagger', cache_timeout=0)),
     path('account/register/', RegisterUserView.as_view()),  
     path('account/delete/<str:email>/', DeleteUserView.as_view()),
+    path('account/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('account/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('account/check-auth/' , check_auth),
 ]
+
 
 
